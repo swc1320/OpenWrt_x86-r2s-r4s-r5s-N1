@@ -82,19 +82,4 @@ sed -i \
 	-e 's?../../lang?$(TOPDIR)/feeds/packages/lang?' \
 	package/feeds/kiddin9/*/Makefile
 
-(
-if [ -f sdk.tar.xz ]; then
-	sed -i 's,$(STAGING_DIR_HOST)/bin/upx,upx,' package/feeds/kiddin9/*/Makefile
-	mkdir sdk
-	tar -xJf sdk.tar.xz -C sdk
-	cp -rf sdk/*/staging_dir/* ./staging_dir/
-	rm -rf sdk.tar.xz sdk
-	sed -i '/\(tools\|toolchain\)\/Makefile/d' Makefile
-	if [ -f /usr/bin/python ]; then
-		ln -sf /usr/bin/python staging_dir/host/bin/python
-	else
-		ln -sf /usr/bin/python3 staging_dir/host/bin/python
-	fi
-	ln -sf /usr/bin/python3 staging_dir/host/bin/python3
-fi
-) &
+sed -i "s/OpenWrt/KWrt/g" package/base-files/files/bin/config_generate package/base-files/image-config.in config/Config-images.in Config.in include/u-boot.mk include/version.mk package/network/config/wifi-scripts/files/lib/wifi/mac80211.sh
